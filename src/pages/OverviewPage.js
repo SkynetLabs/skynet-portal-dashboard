@@ -4,11 +4,10 @@ import prettyBytes from "pretty-bytes";
 import { ReactComponent as Spinner } from "../svg/Spinner.svg";
 import { ReactComponent as CheckCircle } from "../svg/CheckCircle.svg";
 import { ReactComponent as Error } from "../svg/Error.svg";
+import Link from "../components/Link";
 
 const ServerRow = ({ server }) => {
   const { data, isValidating, error } = useSWR(`${server.address}/skynet/stats`);
-
-  console.log(data);
 
   return (
     <tr>
@@ -20,7 +19,11 @@ const ServerRow = ({ server }) => {
             {!isValidating && error && <Error className="fill-current text-error" />}
           </div>
           <div className="ml-4">
-            <div className="text-sm font-medium text-gray-900">{server.address}</div>
+            <div className="text-sm font-medium text-gray-900">
+              <Link href={server.address} className="hover:text-palette-400 transition-colors duration-200">
+                {server.address}
+              </Link>
+            </div>
             <div className="text-sm text-gray-500">siad uptime {prettyMilliseconds(data?.uptime ?? 0 * 1000)}</div>
           </div>
         </div>
@@ -49,13 +52,7 @@ const ServerRow = ({ server }) => {
   );
 };
 
-export default function OverviewPage() {
-  const { data } = useSWR("/servers.json");
-
-  if (!data) return null;
-
-  const servers = data.production;
-
+const ServerTable = ({ servers }) => {
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -99,6 +96,19 @@ export default function OverviewPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default function OverviewPage() {
+  const { data } = useSWR("/servers.json");
+
+  if (!data) return null;
+
+  return (
+    <div className="space-y-10">
+      <ServerTable servers={data.production} />
+      <ServerTable servers={data.development} />
     </div>
   );
 }
