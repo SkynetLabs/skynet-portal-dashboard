@@ -5,6 +5,9 @@ import { CubeTransparentIcon, XIcon } from "@heroicons/react/outline";
 import { ReactComponent as Logo } from "./svg/LogoWhiteText.svg";
 import Link from "./components/Link";
 
+// this gets injected by github action in build time
+const commitSha = process.env.REACT_APP_GIT_SHA;
+
 const navigation = [{ name: "Infrastructure overview", to: "/", icon: CubeTransparentIcon }];
 
 const resources = [
@@ -50,6 +53,17 @@ const SidebarContent = () => (
           </div>
         </div>
       </nav>
+      <div className="flex-shrink-0 p-4 space-y-4">
+        <p className="text-center text-palette-300 text-sm">
+          Fork me on <Link href="https://github.com/kwypchlo/skynet-portal-dashboard">GitHub</Link>
+        </p>
+
+        {commitSha && (
+          <p className="text-center text-xs font-mono break-all">
+            <Link href={`https://github.com/kwypchlo/skynet-portal-dashboard/commit/${commitSha}`}>{commitSha}</Link>
+          </p>
+        )}
+      </div>
     </div>
   </div>
 );
