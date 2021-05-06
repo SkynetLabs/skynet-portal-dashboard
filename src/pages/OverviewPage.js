@@ -24,7 +24,7 @@ const ServerRow = ({ server }) => {
                 {server.address}
               </Link>
             </div>
-            <div className="text-sm text-gray-500">siad uptime {prettyMilliseconds(data?.uptime ?? 0 * 1000)}</div>
+            <div className="text-sm text-gray-500">siad uptime {prettyMilliseconds((data?.uptime ?? 0) * 1000)}</div>
           </div>
         </div>
       </td>
