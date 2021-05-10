@@ -12,7 +12,9 @@
     { "address": "https://us-or-2.siasky.net", "zone": "us-west" },
     { "address": "https://us-pa-1.siasky.net", "zone": "us-east" },
     { "address": "https://us-pa-2.siasky.net", "zone": "us-east" },
-    { "address": "https://us-va-1.siasky.net", "zone": "us-east" }
+    { "address": "https://us-va-1.siasky.net", "zone": "us-east" },
+    { "address": "https://us-va-2.siasky.net", "zone": "us-east" },
+    { "address": "https://us-va-3.siasky.net", "zone": "us-east" }
   ],
   "development": [{ "address": "https://siasky.dev" }, { "address": "https://siasky.xyz" }]
 }
