@@ -5,9 +5,15 @@ import { ReactComponent as Spinner } from "../svg/Spinner.svg";
 import { ReactComponent as CheckCircle } from "../svg/CheckCircle.svg";
 import { ReactComponent as Error } from "../svg/Error.svg";
 import Link from "../components/Link";
+import useSkydCommit from "../services/useSkydCommit";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const ServerRow = ({ server }) => {
   const { data, isValidating, error } = useSWR(`${server.address}/skynet/stats`);
+  const { data: skydCommit } = useSkydCommit(data?.versioninfo?.gitrevision);
 
   return (
     <tr>
@@ -30,7 +36,24 @@ const ServerRow = ({ server }) => {
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-500">{data?.versioninfo?.version}</div>
-        <div className="text-sm text-gray-500">{data?.versioninfo?.gitrevision}</div>
+        <div className="text-sm text-gray-500">
+          {skydCommit ? (
+            <>
+              <Link
+                href={skydCommit.web_url}
+                title={skydCommit.message}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-palette-400 transition-colors duration-200"
+              >
+                {skydCommit.short_id}
+              </Link>{" "}
+              @ {dayjs(skydCommit.committed_date).fromNow()}
+            </>
+          ) : (
+            data?.versioninfo?.gitrevision
+          )}
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         {data && (
